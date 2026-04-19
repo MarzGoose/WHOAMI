@@ -89,6 +89,17 @@ In WHOAMI's Sources screen, point to any folder and WHOAMI will attempt to read 
 
 ---
 
+## Phase 0 vs. Phase 1
+
+WHOAMI Phase 0 (current) processes:
+- Claude conversations (`conversations.json`)
+- Bank transactions (CSV)
+- iMessage (macOS — same machine)
+
+All other sources in this guide (Spotify, social media, Google Takeout, browser history) are Phase 1. You can export them now and store them — they will be processed when those parsers ship.
+
+---
+
 ## For Best Results
 
 Request Spotify and social media exports **before** your first run. WHOAMI can already run on Claude conversations, iMessage, and bank data while you wait.
