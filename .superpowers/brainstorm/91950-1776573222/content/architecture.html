@@ -1,0 +1,103 @@
+<h2>System architecture</h2>
+<p class="subtitle">Three layers: collect → extract → output. Everything runs locally. Nothing leaves your machine unless you choose.</p>
+
+<div class="mockup">
+  <div class="mockup-header">EXHAUST — Full System Overview</div>
+  <div class="mockup-body" style="padding:24px;font-family:monospace;font-size:12px">
+
+    <!-- Layer 1: Data Sources -->
+    <div style="margin-bottom:20px">
+      <div style="color:#8b949e;font-size:10px;letter-spacing:1px;margin-bottom:8px">LAYER 1 — DATA SOURCES (local only, no API calls)</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="background:#1a2e1a;border:1px solid #3fb950;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#3fb950">FREE</span> <span style="color:#e6edf3">Claude / AI chats</span><br>
+          <span style="color:#8b949e;font-size:10px">conversations.json</span>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#58a6ff">PAID</span> <span style="color:#e6edf3">iMessage</span><br>
+          <span style="color:#8b949e;font-size:10px">~/Library/Messages/chat.db</span>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#58a6ff">PAID</span> <span style="color:#e6edf3">Bank records</span><br>
+          <span style="color:#8b949e;font-size:10px">CSV drop folder</span>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#58a6ff">PAID</span> <span style="color:#e6edf3">Apple Health</span><br>
+          <span style="color:#8b949e;font-size:10px">export.xml</span>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#58a6ff">PAID</span> <span style="color:#e6edf3">Browser history</span><br>
+          <span style="color:#8b949e;font-size:10px">History SQLite</span>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:6px 10px;font-size:11px">
+          <span style="color:#58a6ff">PAID</span> <span style="color:#e6edf3">Google Takeout</span><br>
+          <span style="color:#8b949e;font-size:10px">.zip drop folder</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="color:#8b949e;text-align:center;margin-bottom:16px;font-size:16px">↓</div>
+
+    <!-- Layer 2: Python Core Engine -->
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:16px;margin-bottom:20px">
+      <div style="color:#8b949e;font-size:10px;letter-spacing:1px;margin-bottom:12px">LAYER 2 — PYTHON CORE ENGINE (local, offline)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div style="background:#1f2937;border-radius:4px;padding:8px">
+          <div style="color:#f0883e;font-size:10px;font-weight:bold;margin-bottom:4px">FORMAT DETECTOR</div>
+          <div style="color:#8b949e;font-size:10px">Identifies source type<br>Normalises to common schema<br>Handles same-extension conflicts</div>
+        </div>
+        <div style="background:#1f2937;border-radius:4px;padding:8px">
+          <div style="color:#9d8cff;font-size:10px;font-weight:bold;margin-bottom:4px">SIGNAL EXTRACTOR</div>
+          <div style="color:#8b949e;font-size:10px">Absence detection<br>Contradiction flagging<br>Frequency vs salience<br>Tone shift analysis<br>Abandoned threads</div>
+        </div>
+        <div style="background:#1f2937;border-radius:4px;padding:8px">
+          <div style="color:#3fb950;font-size:10px;font-weight:bold;margin-bottom:4px">EXPERT TOGGLES</div>
+          <div style="color:#8b949e;font-size:10px">User selects signal types<br>Controls output volume<br>Warns if high-signal<br>categories disabled</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="color:#8b949e;text-align:center;margin-bottom:16px;font-size:16px">↓</div>
+
+    <!-- Layer 3: Output -->
+    <div style="margin-bottom:20px">
+      <div style="color:#8b949e;font-size:10px;letter-spacing:1px;margin-bottom:8px">LAYER 3 — OUTPUT + ANALYSIS</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="background:#1a2e1a;border:1px solid #3fb950;border-radius:4px;padding:8px 12px;font-size:11px">
+          <div style="color:#3fb950;font-weight:bold;margin-bottom:2px">Signal File (default)</div>
+          <div style="color:#8b949e;font-size:10px">Paste into Claude/ChatGPT<br>Bring your own AI</div>
+        </div>
+        <div style="background:#1f2937;border:1px solid #58a6ff;border-radius:4px;padding:8px 12px;font-size:11px">
+          <div style="color:#58a6ff;font-weight:bold;margin-bottom:2px">In-app analysis</div>
+          <div style="color:#8b949e;font-size:10px">Paste API key<br>Claude/GPT/Gemini</div>
+        </div>
+        <div style="background:#1f2937;border:1px solid #9d8cff;border-radius:4px;padding:8px 12px;font-size:11px">
+          <div style="color:#9d8cff;font-weight:bold;margin-bottom:2px">Local model (advanced)</div>
+          <div style="color:#8b949e;font-size:10px">Ollama integration<br>100% offline</div>
+        </div>
+        <div style="background:#2e1a1a;border:1px solid #f0883e;border-radius:4px;padding:8px 12px;font-size:11px">
+          <div style="color:#f0883e;font-weight:bold;margin-bottom:2px">AI Interview Agenda</div>
+          <div style="color:#8b949e;font-size:10px">Data-driven questions<br>targeting detected gaps</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shell note -->
+    <div style="border-top:1px solid #30363d;padding-top:12px;display:flex;gap:16px">
+      <div style="font-size:10px;color:#8b949e">
+        <span style="color:#58a6ff">Desktop app:</span> Electron shell wrapping the Python core — drag-drop files, toggle panel, one-click run
+      </div>
+      <div style="font-size:10px;color:#8b949e">
+        <span style="color:#3fb950">CLI:</span> Same Python core, no Electron — <code style="color:#3fb950">exhaust run --sources imessage,bank</code>
+      </div>
+      <div style="font-size:10px;color:#8b949e">
+        <span style="color:#9d8cff">GitHub:</span> CLI + parsers open source. Desktop app proprietary.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;text-align:center">Does this architecture look right? Any layer that needs adjusting before we go deeper?</p>

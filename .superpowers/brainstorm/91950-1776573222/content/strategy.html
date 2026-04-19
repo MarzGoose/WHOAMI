@@ -1,0 +1,96 @@
+<h2>Ship strategy — three paths</h2>
+<p class="subtitle">These aren't mutually exclusive. The question is what comes first and what that unlocks.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:6px 6px 0 0;min-height:140px">
+      <div style="font-size:10px;color:#8b949e;margin-bottom:8px">TIMELINE</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#3fb950;border-radius:2px;height:8px;width:60px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Week 1–2: Python CLI working on your own data</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#3fb950;border-radius:2px;height:8px;width:100px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Week 3–4: Claude exports + bank CSV working</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#58a6ff;border-radius:2px;height:8px;width:140px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Month 2: iMessage + browser + Electron shell</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#f0883e;border-radius:2px;height:8px;width:180px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Month 3: Freemium launch, GitHub open core</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Ship fast, iterate in public</h3>
+      <p>Build the CLI first. Use it on your own data. Put it on GitHub. Post the results (not the code — the <em>output</em>) on TikTok/Instagram. Real signal from real data is the content. Desktop app comes after the CLI proves itself.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Working version in ~2 weeks</li><li>GitHub timestamp = prior art protection</li><li>Content generates itself (your own mirror)</li><li>Feedback shapes the desktop app</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>CLI limits early audience to technical users</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:6px 6px 0 0;min-height:140px">
+      <div style="font-size:10px;color:#8b949e;margin-bottom:8px">TIMELINE</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#9d8cff;border-radius:2px;height:8px;width:80px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Week 1–3: Landing page + concept video</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#9d8cff;border-radius:2px;height:8px;width:100px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Week 4–6: TikTok/IG build-in-public content</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#9d8cff;border-radius:2px;height:8px;width:130px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Month 2–3: Waitlist grows while you build</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#3fb950;border-radius:2px;height:8px;width:180px;flex-shrink:0"></div>
+          <span style="font-size:10px;color:#e6edf3">Month 4: Launch to warm audience</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Hype first, build behind the curtain</h3>
+      <p>Build the landing page and concept video now. Start the waitlist. Post the <em>idea</em> and the problem — not the product. Build in private. Launch when it's ready to an audience already waiting.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Demand validated before full build</li><li>Warm audience on launch day</li><li>Protects implementation details</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Longer until you get real feedback</li><li>Concept can be copied before you ship</li><li>Hype without product can deflate</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:6px 6px 0 0;min-height:140px">
+      <div style="font-size:10px;color:#8b949e;margin-bottom:8px">OPEN CORE MODEL (used by PostHog, Metabase, Supabase)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+        <div style="background:#1a2e1a;border-radius:4px;padding:8px">
+          <div style="color:#3fb950;font-size:10px;font-weight:bold;margin-bottom:4px">OPEN SOURCE (GitHub)</div>
+          <div style="font-size:10px;color:#8b949e">CLI engine<br>Format parsers<br>Signal extractors<br>Community builds on it</div>
+        </div>
+        <div style="background:#2e1a1a;border-radius:4px;padding:8px">
+          <div style="color:#f0883e;font-size:10px;font-weight:bold;margin-bottom:4px">PROPRIETARY (Paid)</div>
+          <div style="font-size:10px;color:#8b949e">Desktop app<br>Auto-collection<br>API key analysis<br>Freemium tiers</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Open core ★ recommended</h3>
+      <p>CLI engine on GitHub (open source, prior art, developer credibility). Desktop app is the paid product. GitHub <em>is</em> the marketing to developers; TikTok/IG reaches everyone else. Both audiences, two channels.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Prior art protection from day one</li><li>Developers find it, non-devs buy the app</li><li>Community improves parsers for free</li><li>GitHub stars = social proof</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Needs clear boundary between free/paid</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;text-align:center">On GitHub: <strong>yes, absolutely</strong> — open-source CLI core establishes prior art and builds developer credibility. The desktop app stays proprietary.</p>

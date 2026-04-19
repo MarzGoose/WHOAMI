@@ -1,0 +1,94 @@
+<h2>Three architectural approaches</h2>
+<p class="subtitle">The core question: what technology stack powers the engine and the desktop shell?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;font-size:11px;color:#e6edf3;border-radius:6px 6px 0 0;min-height:130px">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="background:#1f2937;border-radius:4px;padding:8px;flex:1;text-align:center">
+          <div style="color:#f0883e;font-weight:bold;margin-bottom:4px">Tauri</div>
+          <div style="color:#8b949e;font-size:10px">Desktop Shell</div>
+        </div>
+        <div style="color:#58a6ff;padding-top:12px">+</div>
+        <div style="background:#1f2937;border-radius:4px;padding:8px;flex:1;text-align:center">
+          <div style="color:#f0883e;font-weight:bold;margin-bottom:4px">Rust</div>
+          <div style="color:#8b949e;font-size:10px">Core Engine</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;color:#8b949e;font-size:10px;text-align:center">
+        ~8MB app · blazing fast · air-tight privacy story
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Tauri + Rust</h3>
+      <p>Rust handles all file parsing, format detection, and signal extraction. Tauri provides the desktop shell. Tiny binary, no Chromium bloat, best performance.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Smallest app (~8MB vs Electron's ~150MB)</li><li>Strongest privacy/security story</li><li>Best long-term foundation</li><li>CLI comes naturally</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Rust is hard — slower to build</li><li>Longer time to first working version</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;font-size:11px;color:#e6edf3;border-radius:6px 6px 0 0;min-height:130px">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="background:#1f2937;border-radius:4px;padding:8px;flex:1;text-align:center">
+          <div style="color:#58a6ff;font-weight:bold;margin-bottom:4px">Electron</div>
+          <div style="color:#8b949e;font-size:10px">Desktop Shell</div>
+        </div>
+        <div style="color:#58a6ff;padding-top:12px">+</div>
+        <div style="background:#1f2937;border-radius:4px;padding:8px;flex:1;text-align:center">
+          <div style="color:#58a6ff;font-weight:bold;margin-bottom:4px">Node.js</div>
+          <div style="color:#8b949e;font-size:10px">Core Engine</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;color:#8b949e;font-size:10px;text-align:center">
+        ~150MB app · fast to build · massive ecosystem
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Electron + Node.js</h3>
+      <p>Node.js handles parsing (SQLite, CSV, JSON, XML). Electron wraps it in a desktop app. VS Code and Slack are built this way — proven, well-understood pattern.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Fastest path to working product</li><li>Huge parser ecosystem (npm)</li><li>Easy to hire for / open source</li><li>CLI straightforward</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Large install size (~150MB)</li><li>Higher memory use</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;font-size:11px;color:#e6edf3;border-radius:6px 6px 0 0;min-height:130px">
+      <div style="display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap">
+        <div style="background:#1f2937;border-radius:4px;padding:6px 8px;text-align:center">
+          <div style="color:#3fb950;font-weight:bold;font-size:10px">Python</div>
+          <div style="color:#8b949e;font-size:9px">Core Engine</div>
+        </div>
+        <div style="color:#58a6ff;padding-top:8px">+</div>
+        <div style="background:#1f2937;border-radius:4px;padding:6px 8px;text-align:center">
+          <div style="color:#58a6ff;font-weight:bold;font-size:10px">Electron</div>
+          <div style="color:#8b949e;font-size:9px">Desktop Shell</div>
+        </div>
+        <div style="color:#58a6ff;padding-top:8px">+</div>
+        <div style="background:#1f2937;border-radius:4px;padding:6px 8px;text-align:center">
+          <div style="color:#3fb950;font-weight:bold;font-size:10px">CLI</div>
+          <div style="color:#8b949e;font-size:9px">Free</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;color:#8b949e;font-size:10px;text-align:center">
+        Python core · Electron shell · CLI is just the core alone
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Python core + Electron shell ★ recommended</h3>
+      <p>Python does the heavy lifting: data parsing, format detection, pattern extraction (pandas, SQLite, spaCy for tone). Electron is a thin UI shell. The CLI is just the Python core run directly — no extra work.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Python is unmatched for data parsing</li><li>CLI is free — same codebase</li><li>Easier to prototype and iterate</li><li>AI/ML libraries available if needed later</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Two language contexts (Python + JS)</li><li>Slightly more complex IPC bridge</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;text-align:center">My recommendation is <strong>C</strong> — Python's data ecosystem is the best fit for this problem, and the CLI comes for free.</p>

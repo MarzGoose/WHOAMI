@@ -1,0 +1,10 @@
+db/
+exports/
+output/
+logs/
+__pycache__/
+*.pyc
+.env
+*.db
+*.json.bak
+venv/

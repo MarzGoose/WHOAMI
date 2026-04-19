@@ -1,0 +1,11 @@
+{"type":"server-started","port":51927,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:51927","screen_dir":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content","state_dir":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/state"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/output-modes.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/waiting-1.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/approaches.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/strategy.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/architecture.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/waiting-2.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/signal-extractor.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/ui-layout.html"}
+{"type":"screen-added","file":"/Users/jay-wow/Projects/WHOAMI/.superpowers/brainstorm/91950-1776573222/content/output-screen.html"}
+{"type":"server-stopped","reason":"idle timeout"}

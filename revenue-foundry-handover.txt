@@ -1,0 +1,44 @@
+# WHOAMI — Session Handover
+
+## What this document is
+Kindling for the first session. It tells you what happened and what to do next. It does NOT tell you who John is. That's what this project exists to discover.
+
+## What happened in the prior session
+
+### The catalyst
+John watched a video (Cris Koerner / "Robbie and Ron") about someone who gave an AI agent $100 and a mandate to make $20K. We dissected it honestly:
+- The AI's autonomous strategy (Fiverr SWOT analyses) failed
+- The money came from Robbie posting content about the experiment on TikTok, going viral, then selling hosted AI agent access at $29/month
+- Real lesson: AI is a force multiplier, not a perpetual motion machine. The human provides distribution. The AI provides leverage.
+
+### What John decided
+1. **Revenue Foundry Library** — multiple parallel income streams, Factorio logic. Trickles compound into torrents. Each foundry feeds others.
+2. **Content stockpiling starts immediately** — document the AI journey on TikTok/short-form. Raw, no production values. The distribution belt must be running before demand hits.
+3. **The prior session generated four foundry ideas too quickly, all from the same narrow vein (electrotechnology).** John corrected this. His exact words: *"The picture is bigger, it's layered and it's incredibly rich and it is a deep shaft with huge veins of gold that until now I lacked the right tools to mine."*
+4. **WHOAMI process** — John designed this himself (handwritten spec, scanned). It's an identity calibration protocol, not a journal. His spec:
+   - Form an accurate picture of who you are
+   - Not for vanity, not for therapy — **for calibration**
+   - Must flow effortlessly (raw verbal input, not questionnaires)
+   - Must extract **the good, the bad, and the ugly**
+   - Output must be structured data useful for Claude
+
+## What this session needs to do
+
+**Interview John.** That's it. Don't suggest. Don't pre-map. Don't assume you know where the veins are. Ask questions across his whole life — work, skills, experiences, failures, knowledge, relationships, patterns — and extract structured, Claude-usable data from his answers.
+
+The picture of John does not yet exist in structured form. You are building it from raw material. The good, the bad, and the ugly. No flattery, no filtering, no sanitising.
+
+**Rules:**
+- Ask before you suggest. Map before you mine.
+- Do not limit exploration to any single identity label.
+- Honesty over reassurance. Directness over diplomacy.
+- When enough raw material exists, THEN identify foundries. Assess each on: startup cost, time to first dollar, revenue ceiling, compounding potential, defensibility, and energy cost to John.
+
+**Constraints John is operating under:**
+- Zero capital
+- Urgent need for income (survival, not comfort)
+- Tools: iPhone, iMac, MacBook Air, Claude Code, Claude.ai
+- Time: available outside Friday TAFE classes and part-time work
+- Vacant possession deadline: 28 April 2026
+
+That's all the context you need. Everything else, ask him.

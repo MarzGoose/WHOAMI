@@ -1,0 +1,69 @@
+<h2>What does the tool hand you at the end?</h2>
+<p class="subtitle">You described toggleable extraction and digestibility controls — here are three output philosophies. Which feels right?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;font-family:monospace;font-size:11px;color:#58a6ff;border-radius:6px 6px 0 0;min-height:120px">
+      <div style="color:#8b949e;margin-bottom:8px">► EXTRACTED SIGNALS — bank_2024.csv + messages.db</div>
+      <div style="color:#3fb950">✓ 847 transactions parsed</div>
+      <div style="color:#3fb950">✓ 12,400 messages parsed</div>
+      <div style="margin-top:8px;color:#e6edf3">
+        <span style="color:#f0883e">ABSENCE:</span> Zero food delivery spend Mar–Aug<br>
+        <span style="color:#f0883e">CONTRADICTION:</span> States "doesn't impulse buy" — 23 hardware purchases after 10pm<br>
+        <span style="color:#f0883e">FREQUENCY GAP:</span> Bunnings appears 3.4×/month, never mentioned in conversations<br>
+        <span style="color:#f0883e">ABANDONED:</span> 4 subscription starts, cancelled within 30 days
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Signal File</h3>
+      <p>Structured text output: flagged patterns, contradictions, absences. Designed to be pasted directly into Claude or another AI for analysis. No narrative — pure extracted signal.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>AI-ready immediately</li><li>No interpretation bias</li><li>You control the analysis</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Not human-readable on its own</li><li>Requires a second step</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1a2e;padding:16px;font-size:12px;color:#e0e0e0;border-radius:6px 6px 0 0;min-height:120px">
+      <div style="color:#9d8cff;font-size:13px;font-weight:bold;margin-bottom:10px">WHOAMI REPORT — April 2026</div>
+      <div style="border-left:3px solid #9d8cff;padding-left:10px;margin-bottom:8px;font-size:11px">
+        <strong>Spending vs. stated values:</strong> Tool/hardware purchases occur at 3× the rate of any other category. 73% occur outside business hours, suggesting unplanned acquisition. This contradicts stated preference for deliberate purchasing.
+      </div>
+      <div style="border-left:3px solid #ff6b6b;padding-left:10px;font-size:11px">
+        <strong>Tone shift detected:</strong> Messages to family use 2× more hedging language than messages to trade contacts. Hypothesis: narrator is more active in family context.
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Narrative Report</h3>
+      <p>Human-readable dossier. The tool interprets patterns and writes them up in plain language — like a forensic analyst's summary. Readable without needing to feed it to another AI.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Immediately readable</li><li>Mirrors WHOAMI dossier format</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Interpretation baked in</li><li>Risks becoming wellness-flavoured</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f1f0f;padding:16px;font-size:11px;color:#cccccc;border-radius:6px 6px 0 0;min-height:120px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:#1a2e1a;border-radius:4px;padding:8px">
+        <div style="color:#6bcf7f;font-size:10px;margin-bottom:4px">TOGGLE PANEL</div>
+        <div style="font-size:10px">☑ Spending patterns<br>☑ Absence detection<br>☐ Tone analysis<br>☑ Abandoned threads<br>☐ Time-of-day patterns</div>
+      </div>
+      <div style="background:#1a2e1a;border-radius:4px;padding:8px">
+        <div style="color:#6bcf7f;font-size:10px;margin-bottom:4px">OUTPUT PREVIEW</div>
+        <div style="font-size:10px;color:#aaaaaa">3 signal types active<br>847 records in scope<br>Est. output: ~2,400 tokens<br><br><span style="color:#6bcf7f">► Run extraction</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Configurable Extraction</h3>
+      <p>Toggle panel lets you choose which signal types to extract before running. Output is always the raw signal file (Option A) — but you control the volume and focus. Run it lean for a quick check, or full-spectrum for deep analysis.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>For</h4><ul><li>Matches your "digestibility" request exactly</li><li>User controls signal-to-noise</li><li>No interpretation bias</li></ul></div>
+        <div class="cons"><h4>Against</h4><ul><li>Toggle design needs care — easy to under-extract</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

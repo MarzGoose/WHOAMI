@@ -1,0 +1,79 @@
+<h2>The results screen — moment of truth</h2>
+<p class="subtitle">EXHAUST just finished a run. This is what the user sees. The signal file rendered in-app before they take it anywhere.</p>
+
+<div class="mockup">
+  <div class="mockup-header">EXHAUST — Results · Run completed 19 Apr 2026 · 3 sources · 23 signals found</div>
+  <div class="mockup-body" style="padding:0;display:flex;min-height:340px;font-family:monospace;font-size:11px">
+
+    <!-- Left sidebar - signal type nav -->
+    <div style="width:140px;background:#080d12;border-right:1px solid #1c2128;padding:12px;flex-shrink:0">
+      <div style="color:#8b949e;font-size:9px;letter-spacing:1px;margin-bottom:10px">SIGNAL TYPES</div>
+      <div style="color:#f0883e;margin-bottom:6px;cursor:pointer">● All signals <span style="color:#8b949e">(23)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Contradiction <span>(7)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Absence <span>(4)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Freq vs salience <span>(5)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Temporal <span>(3)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Abandoned <span>(2)</span></div>
+      <div style="color:#8b949e;margin-bottom:4px;font-size:10px;cursor:pointer">○ Convergence <span>(2)</span></div>
+      <div style="margin-top:16px;color:#8b949e;font-size:9px;letter-spacing:1px;margin-bottom:10px">SOURCES</div>
+      <div style="color:#3fb950;font-size:10px;margin-bottom:4px">● Claude chats</div>
+      <div style="color:#3fb950;font-size:10px;margin-bottom:4px">● iMessage</div>
+      <div style="color:#3fb950;font-size:10px;margin-bottom:4px">● Bank CSV</div>
+    </div>
+
+    <!-- Main signal feed -->
+    <div style="flex:1;padding:12px;overflow-y:auto">
+
+      <div style="border:1px solid #f0883e33;border-left:3px solid #f0883e;border-radius:0 4px 4px 0;padding:10px;margin-bottom:8px;background:#f0883e08">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="color:#f0883e;font-size:9px;letter-spacing:1px">CONTRADICTION · HIGH CONFIDENCE</span>
+          <span style="color:#8b949e;font-size:9px">bank + conversations</span>
+        </div>
+        <div style="color:#e6edf3;font-size:11px;margin-bottom:4px">States "doesn't impulse buy" — 23 hardware purchases recorded after 10pm across 14 months.</div>
+        <div style="color:#8b949e;font-size:10px">Cross-stream: spending data + 3 conversation references to deliberate purchasing habits.</div>
+      </div>
+
+      <div style="border:1px solid #9d8cff33;border-left:3px solid #9d8cff;border-radius:0 4px 4px 0;padding:10px;margin-bottom:8px;background:#9d8cff08">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="color:#9d8cff;font-size:9px;letter-spacing:1px">ABSENCE · MEDIUM CONFIDENCE</span>
+          <span style="color:#8b949e;font-size:9px">conversations</span>
+        </div>
+        <div style="color:#e6edf3;font-size:11px;margin-bottom:4px">Topic "money / finances" appears in 0 of 847 conversation exchanges across 14 months.</div>
+        <div style="color:#8b949e;font-size:10px">Notable given financial records show active spending pattern. Systematic avoidance or compartmentalisation.</div>
+      </div>
+
+      <div style="border:1px solid #58a6ff33;border-left:3px solid #58a6ff;border-radius:0 4px 4px 0;padding:10px;margin-bottom:8px;background:#58a6ff08">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="color:#58a6ff;font-size:9px;letter-spacing:1px">TEMPORAL CLUSTER · HIGH CONFIDENCE</span>
+          <span style="color:#8b949e;font-size:9px">bank · iMessage</span>
+        </div>
+        <div style="color:#e6edf3;font-size:11px;margin-bottom:4px">Spending +340% and outbound messages −60% in the 3 days following detected calendar event: birthday (recurring, annual).</div>
+        <div style="color:#8b949e;font-size:10px">Pattern consistent across 3 years of available data. Withdrawal + spending spike = probable stress response.</div>
+      </div>
+
+      <div style="border:1px solid #3fb95033;border-left:3px solid #3fb950;border-radius:0 4px 4px 0;padding:10px;margin-bottom:8px;background:#3fb95008">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="color:#3fb950;font-size:9px;letter-spacing:1px">FREQ VS SALIENCE · HIGH CONFIDENCE</span>
+          <span style="color:#8b949e;font-size:9px">bank + conversations</span>
+        </div>
+        <div style="color:#e6edf3;font-size:11px;margin-bottom:4px">Hardware/tools category: 3.4× per month in spending. Appears in 0.3% of conversation topics.</div>
+        <div style="color:#8b949e;font-size:10px">Highest-frequency spend category. Near-absent from stated priorities. Gap: 11×.</div>
+      </div>
+
+    </div>
+
+    <!-- Right panel - actions -->
+    <div style="width:130px;background:#080d12;border-left:1px solid #1c2128;padding:12px;flex-shrink:0">
+      <div style="color:#8b949e;font-size:9px;letter-spacing:1px;margin-bottom:10px">SEND TO AI</div>
+      <div style="background:#3fb950;border-radius:3px;padding:6px;text-align:center;font-size:9px;color:#0d1117;font-weight:bold;margin-bottom:6px;cursor:pointer">Copy signal file</div>
+      <div style="background:#1c2128;border-radius:3px;padding:6px;text-align:center;font-size:9px;color:#e6edf3;margin-bottom:6px;cursor:pointer">Open in Claude</div>
+      <div style="background:#1c2128;border-radius:3px;padding:6px;text-align:center;font-size:9px;color:#e6edf3;margin-bottom:6px;cursor:pointer">Generate interview agenda</div>
+      <div style="margin-top:16px;color:#8b949e;font-size:9px;letter-spacing:1px;margin-bottom:10px">EXPORT</div>
+      <div style="background:#1c2128;border-radius:3px;padding:6px;text-align:center;font-size:9px;color:#8b949e;margin-bottom:6px;cursor:pointer">Save as .txt</div>
+      <div style="background:#1c2128;border-radius:3px;padding:6px;text-align:center;font-size:9px;color:#8b949e;cursor:pointer">Save as .json</div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;text-align:center">Does this output screen feel right? This is what a user sees after their first run.</p>
