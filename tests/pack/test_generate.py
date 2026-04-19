@@ -26,13 +26,13 @@ SAMPLE_SIGNALS = [
 def test_generate_pack_returns_markdown_string():
     with patch("pack.generate.LLMClient") as mock_cls:
         mock_instance = MagicMock()
-        mock_instance.complete.return_value = "# WHOAMI Context Pack\n\nTest content."
+        mock_instance.complete.return_value = "# WHOAMI Context Pack\n\nTest content here — forensic identity analysis."
         mock_cls.return_value = mock_instance
 
         result = generate_pack(SAMPLE_SIGNALS, subject_name="John")
 
     assert isinstance(result, str)
-    assert len(result) > 0
+    assert len(result) > 50
 
 
 def test_generate_pack_includes_signal_count():
