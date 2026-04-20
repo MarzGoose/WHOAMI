@@ -34,12 +34,14 @@ def detect_abandoned_threads(messages: list[Message]) -> list[Signal]:
                 return " ".join(words).rstrip(".,!?")
         return content[:40]
 
-    # Extract key terms (last 2-3 content words) from topics for matching
+    _STOP = {"to", "a", "an", "the", "how", "what", "it", "this", "that",
+             "my", "i", "me", "and", "or", "of", "in", "on", "at", "up",
+             "for", "with", "is", "be", "do", "get", "can", "not", "you"}
+
     def extract_key_terms(topic: str) -> set[str]:
-        words = topic.lower().split()
-        # Take the last 2-3 meaningful words
-        key_words = words[-3:] if len(words) >= 3 else words
-        return set(key_words)
+        words = [w.strip(".,!?") for w in topic.lower().split()]
+        meaningful = [w for w in words if w not in _STOP and len(w) > 3]
+        return set(meaningful[:3]) if meaningful else set()
 
     # For each intent message, extract the topic and track which threads mention it
     intent_topics: dict[str, tuple[str, str, set[str]]] = {}  # topic_key -> (topic_text, intent_thread_id, key_terms)
@@ -54,9 +56,10 @@ def detect_abandoned_threads(messages: list[Message]) -> list[Signal]:
     topic_threads: dict[str, set[str]] = defaultdict(set)
 
     for topic_key, (topic_text, intent_thread_id, key_terms) in intent_topics.items():
+        if not key_terms:
+            continue
         for m in human_messages:
             msg_lower = m.content.lower()
-            # Check if any key term appears in this message
             if any(term in msg_lower for term in key_terms):
                 topic_threads[topic_key].add(m.thread_id)
 

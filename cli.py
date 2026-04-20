@@ -16,11 +16,15 @@ from normalise.db import (
 )
 from sources.claude_export.parser import ClaudeExportParser
 from sources.bank_csv.parser import BankCSVParser
+from sources.imessage.parser import IMessageParser
+from sources.ofx.parser import OFXParser
 from signals.absence import detect_absence
 from signals.frequency_salience import detect_frequency_salience
 from signals.abandoned_threads import detect_abandoned_threads
 from signals.tone_shifts import detect_tone_shifts
 from signals.contradiction import detect_contradiction
+from signals.validation_seeking import detect_validation_seeking
+from signals.help_seeking import detect_help_seeking
 from pack.generate import generate_pack
 
 
@@ -43,6 +47,28 @@ def run(args):
         transactions = list(parser.parse(args.bank))
         insert_transactions(conn, transactions)
         print(f"  Loaded {len(transactions)} transactions.")
+
+    if args.ofx:
+        for ofx_path in args.ofx:
+            print(f"  Parsing OFX: {ofx_path}")
+            parser = OFXParser()
+            transactions = list(parser.parse(ofx_path))
+            insert_transactions(conn, transactions)
+            print(f"  Loaded {len(transactions)} transactions.")
+
+    if args.imessage:
+        db_path = args.imessage if args.imessage != "auto" else "~/Library/Messages/chat.db"
+        print(f"  Parsing iMessage database: {db_path}")
+        parser = IMessageParser(db_path)
+        messages = list(parser.parse())
+        insert_messages(conn, messages)
+        print(f"  Loaded {len(messages)} messages.")
+
+    # Resolve API key early — needed for LLM-based contradiction detection
+    api_key = args.api_key or os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("Error: ANTHROPIC_API_KEY not set. Use --api-key or set the environment variable.")
+        sys.exit(1)
 
     # --- Extract signals ---
     print("\nExtracting signals...")
@@ -67,9 +93,17 @@ def run(args):
     signals.extend(tone)
 
     if all_transactions:
-        contradiction = detect_contradiction(all_messages, all_transactions)
+        contradiction = detect_contradiction(all_messages, all_transactions, api_key=api_key)
         print(f"  Contradictions: {len(contradiction)} signals")
         signals.extend(contradiction)
+
+    validation = detect_validation_seeking(all_messages)
+    print(f"  Validation-seeking: {len(validation)} signals")
+    signals.extend(validation)
+
+    help_dist = detect_help_seeking(all_messages)
+    print(f"  Help-seeking distribution: {len(help_dist)} signals")
+    signals.extend(help_dist)
 
     print(f"\nTotal signals: {len(signals)}")
 
@@ -82,11 +116,6 @@ def run(args):
     Path("output").mkdir(exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d-%H%M")
     output_path = args.output or f"output/whoami-pack-{timestamp}.md"
-
-    api_key = args.api_key or os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        print("Error: ANTHROPIC_API_KEY not set. Use --api-key or set the environment variable.")
-        sys.exit(1)
 
     pack = generate_pack(
         signals,
@@ -108,6 +137,10 @@ def main():
     )
     parser.add_argument("--claude", metavar="PATH", help="Path to conversations.json (Claude export)")
     parser.add_argument("--bank", metavar="PATH", help="Path to bank transactions CSV")
+    parser.add_argument("--imessage", metavar="PATH", nargs="?", const="auto",
+                        help="Path to iMessage chat.db (default: ~/Library/Messages/chat.db)")
+    parser.add_argument("--ofx", metavar="PATH", nargs="+",
+                        help="One or more OFX bank export files")
     parser.add_argument("--name", metavar="NAME", help="Your name (used in pack header)", default="User")
     parser.add_argument("--output", metavar="PATH", help="Output path for the context pack (.md)")
     parser.add_argument("--db", metavar="PATH", help="SQLite database path (default: db/whoami.db)")
@@ -115,9 +148,9 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.claude and not args.bank:
+    if not args.claude and not args.bank and not args.imessage and not args.ofx:
         parser.print_help()
-        print("\nError: provide at least one exhaust file (--claude or --bank).")
+        print("\nError: provide at least one exhaust file (--claude, --bank, or --imessage).")
         sys.exit(1)
 
     run(args)

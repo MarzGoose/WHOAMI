@@ -19,6 +19,27 @@ Personal data exports (Claude conversations.json, Google Takeout, bank CSVs, iMe
 
 ---
 
+### Knowledge-first processing with abductive fallback — and detection as open question
+
+John's primary inference mode is knowledge-direct: he applies what he knows to a problem and experiences genuine comprehension-level reward when that lands. Abductive constraint-satisfaction (arriving at an answer through crossing rules without possessing the underlying knowledge) is a fallback deployed when the primary mode runs out — not a stylistic preference. Crossword behaviour is the isolate: he rarely uses paid hints, preferring to strain with the clue because the strain is where the aha lives. The hollow feeling when meaning is absent after an abductive arrival is the primary system registering incomplete resolution, not a secondary check.
+
+**Meta-evidence from this exchange:** John pushed back on the original "abductive preference" framing persistently but with evident effort toward fairness — generating counterarguments, flagging narrator risk in his own reframes, and continuing to probe rather than accepting either the original claim or his own defence of it. This behaviour is itself data: knowledge-integrity is load-bearing enough to sustain friction. He also caught the entry's conflation of DEMONSTRATED and INFERRED unprompted — consistent with high meta-cognitive monitoring and genuine investment in the protocol's accuracy over self-flattery.
+
+**Source**: 20 Apr 2026 chat on cognitive style, crossword behaviour, and the exchange itself.
+
+**Verbatim**: > "I rarely pay game coins for clues and would much rather strain with the clue which promises the aha moment."
+
+**Open questions (do not collapse):**
+1. Is intrinsic valuation of language and meaning an individual difference for John or baseline human? Treat as genuine variable until evidenced.
+2. The detection question stands but reframed: not depth vs abductive as equal modes, but — am I in primary mode, or in fallback while treating it as primary?
+3. Narrator risk flagged by John himself on the "detection as trainable skill" reframe. Unresolved. Requires behavioural triangulation.
+
+**Why it matters**: Stream A WHOAMI (DEMONSTRATED/STRUCTURAL). The meta-exchange pattern — persistent fairness-seeking pushback with narrator self-suspicion — is as significant as the crossword content and should weight Stream A accordingly. These questions are also load-bearing for Revenue Foundry execution strategy and should not be resolved by self-report alone.
+
+— committed 2026-04-20
+
+---
+
 ### EXHAUST — product pitch candidates
 
 Working name: **EXHAUST** (digital exhaust = pre-narrator behavioural data generated without curation)

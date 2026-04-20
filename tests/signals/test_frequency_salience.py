@@ -10,23 +10,23 @@ def _msg(content, sender="human"):
     )
 
 def test_flags_high_frequency_low_salience_topic():
-    # "tools" appears constantly but user never says it's important
-    messages = [_msg("I went to Bunnings to look at tools") for _ in range(15)]
+    # "work" appears constantly but user never says it's important
+    messages = [_msg("I went to work and finished the project") for _ in range(15)]
     messages += [_msg("I care most about my family and faith") for _ in range(5)]
     signals = detect_frequency_salience(messages, min_messages=10)
     topics = [s.metadata["topic"] for s in signals]
-    assert "tools" in topics
+    assert "work" in topics
 
 def test_does_not_flag_topic_described_as_important():
-    messages = [_msg("Tools are the most important thing to me") for _ in range(3)]
-    messages += [_msg("I love tools, they are central to my life") for _ in range(3)]
+    messages = [_msg("Work is the most important thing to me") for _ in range(3)]
+    messages += [_msg("I love my job, it is central to my life") for _ in range(3)]
     messages += [_msg("random stuff") for _ in range(14)]
     signals = detect_frequency_salience(messages, min_messages=10)
     topics = [s.metadata["topic"] for s in signals]
-    assert "tools" not in topics
+    assert "work" not in topics
 
 def test_returns_correct_signal_type():
-    messages = [_msg("bought more hardware again") for _ in range(15)]
+    messages = [_msg("spent money buying more things") for _ in range(15)]
     messages += [_msg("other stuff") for _ in range(5)]
     signals = detect_frequency_salience(messages, min_messages=10)
     assert all(s.signal_type == "FREQUENCY_SALIENCE" for s in signals)

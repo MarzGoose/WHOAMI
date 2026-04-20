@@ -5,12 +5,19 @@ from signals.base import Signal
 from pack.llm import LLMClient
 
 
-PACK_PROMPT_TEMPLATE = """You are a forensic identity analyst. Below are {signal_count} signals extracted from {subject_name}'s personal data. These signals were detected automatically from their digital exhaust files — data generated without narrator curation.
+PACK_PROMPT_TEMPLATE = """You are a forensic identity analyst. Below are {signal_count} signals extracted from {subject_name}'s personal data. These signals were detected automatically from digital exhaust files — data generated without narrator curation.
 
-Your task: produce a structured WHOAMI context pack. This is a portable identity document designed to give any AI immediate, calibrated understanding of this person — replacing the need for a lengthy intake interview.
+Your task: produce a structured WHOAMI context pack. This is a portable identity document designed to give any AI immediate, calibrated understanding of this person.
 
 SIGNALS:
 {signals_text}
+
+CALIBRATION RULES — follow these strictly:
+- Each signal includes a DATA_QUALITY field: "sufficient" or "marginal"
+- For MARGINAL signals: use hedged language ("may suggest", "tentatively", "weakly indicated"). Do not present as established finding.
+- Do not synthesise cross-signal patterns when the majority of signals are marginal. Note the limitation instead.
+- For signals with effect_size < 0.10: treat as indicative only, not conclusive.
+- If fewer than 2 signals are "sufficient" quality, open the pack with a data quality caveat before the identity signals section.
 
 Produce the context pack in this format:
 
@@ -18,23 +25,37 @@ Produce the context pack in this format:
 Generated: {date}
 Signals: {signal_count} | Sources: {sources}
 
+---
+
 ## Identity Signals
 
-[For each signal, write a clear, forensic, non-judgmental statement of what the data shows. Present contradictions as open findings, not conclusions. Do not resolve or explain away conflicts.]
+[For each signal: state what the data shows, include the confidence level, and note data quality where marginal. Present contradictions as open findings. Do not resolve or explain away conflicts.]
 
 ## Patterns Requiring Attention
 
-[List 3-5 patterns that cut across multiple signals. Note confidence level. Flag anything that appears in both conversation data and behavioural data.]
+[List patterns that cut across multiple SUFFICIENT signals only. If cross-signal synthesis is not warranted, say so explicitly and explain why. Note confidence level for each pattern.]
 
 ## Open Questions
 
-[3-5 questions this data raises that self-report cannot answer. These are interview prompts for follow-up.]
+[3-5 questions this data raises that self-report cannot answer.]
 
 ## For the AI Reading This Pack
 
-[One paragraph briefing the downstream AI on how to use this pack — what to probe, what to avoid assuming, what the subject's narrator is likely to over-represent.]
+[One paragraph: how to use this pack, what to probe, what the subject's narrator likely over-represents, what the data cannot confirm.]
 
 Write forensically. No flattery. No resolution of contradictions. Present evidence, not verdicts."""
+
+
+def _format_signal(s: Signal) -> str:
+    data_quality = s.metadata.get("data_quality", "sufficient")
+    effect_size = s.metadata.get("effect_size")
+    effect_str = f" | effect_size: {effect_size:.3f}" if effect_size is not None else ""
+    return (
+        f"[{s.signal_type} | confidence: {s.confidence} | data_quality: {data_quality}{effect_str}]\n"
+        f"Finding: {s.finding}\n"
+        f"Evidence: {s.evidence}\n"
+        f"Sources: {', '.join(s.sources)}"
+    )
 
 
 def generate_pack(
@@ -43,14 +64,7 @@ def generate_pack(
     output_path: str | None = None,
     api_key: str | None = None,
 ) -> str:
-    signals_text = "\n\n".join(
-        f"[{s.signal_type} | {s.confidence}]\n"
-        f"Finding: {s.finding}\n"
-        f"Evidence: {s.evidence}\n"
-        f"Sources: {', '.join(s.sources)}"
-        for s in signals
-    )
-
+    signals_text = "\n\n".join(_format_signal(s) for s in signals)
     all_sources = sorted({src for s in signals for src in s.sources})
 
     prompt = PACK_PROMPT_TEMPLATE.format(

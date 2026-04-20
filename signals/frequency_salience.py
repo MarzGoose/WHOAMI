@@ -1,19 +1,18 @@
 from sources.base import Message
 from signals.base import Signal
+from signals.domains import DOMAIN_KEYWORDS
 
 TRACKED_TOPICS = {
-    "tools": ["tool", "tools", "hardware", "bunnings", "equipment", "gear"],
-    "money": ["money", "spend", "spending", "buy", "bought", "purchase", "cost"],
-    "work": ["work", "job", "project", "client", "meeting", "deadline"],
-    "health": ["health", "sleep", "tired", "energy", "gym", "exercise", "diet"],
-    "family": ["mum", "mom", "dad", "family", "kids", "children"],
-    "learning": ["learn", "study", "course", "reading", "book", "research"],
+    k: v for k, v in DOMAIN_KEYWORDS.items()
+    if k in {"work", "money", "health", "family", "relationships", "mental_health"}
 }
 
 SALIENCE_MARKERS = [
-    "important", "central", "core", "fundamental", "key", "main", "primary",
-    "most", "love", "passion", "care about", "matter", "matters", "focus",
+    "important", "central", "core", "fundamental", "primary",
+    "love", "passion", "care about", "focus",
 ]
+
+SALIENCE_SUPPRESS_RATE = 0.10
 
 
 def detect_frequency_salience(messages: list[Message], min_messages: int = 20) -> list[Signal]:
@@ -33,12 +32,15 @@ def detect_frequency_salience(messages: list[Message], min_messages: int = 20) -
         if frequency < 0.10:
             continue
 
-        # Check if topic is ever described as important/central
-        salience_messages = [
-            m for m in topic_messages
-            if any(marker in m.content.lower() for marker in SALIENCE_MARKERS)
-        ]
-        if salience_messages:
+        def _salience_near_topic(msg: Message) -> bool:
+            for sentence in msg.content.replace("!", ".").replace("?", ".").split("."):
+                s = sentence.lower()
+                if any(kw in s for kw in keywords) and any(mk in s for mk in SALIENCE_MARKERS):
+                    return True
+            return False
+
+        salience_count = sum(1 for m in topic_messages if _salience_near_topic(m))
+        if salience_count / len(topic_messages) >= SALIENCE_SUPPRESS_RATE:
             continue
 
         signals.append(Signal(
@@ -51,13 +53,15 @@ def detect_frequency_salience(messages: list[Message], min_messages: int = 20) -
             ),
             evidence=(
                 f"Frequency: {frequency:.0%}. "
-                f"Salience markers checked: {', '.join(SALIENCE_MARKERS[:5])}... — none found near topic mentions."
+                f"Salience markers checked in same sentence — none found in >{SALIENCE_SUPPRESS_RATE:.0%} of topic messages."
             ),
             metadata={
                 "topic": topic,
                 "frequency": frequency,
                 "mention_count": len(topic_messages),
                 "message_total": total,
+                "effect_size": frequency,
+                "data_quality": "sufficient",
             },
         ))
 

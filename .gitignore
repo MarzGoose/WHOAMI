@@ -8,3 +8,13 @@ __pycache__/
 *.db
 *.json.bak
 venv/
+
+# Personal data — never publish
+data-*/
+Whoami-data*.txt
+revenue-foundry-handover.txt
+
+# Build artefacts
+.coverage
+.DS_Store
+.pytest_cache/

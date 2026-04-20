@@ -1,3 +1,5 @@
+import json
+import re
 from sources.base import Message, Transaction
 from signals.base import Signal
 
@@ -26,6 +28,13 @@ RESTRAINT_CLAIMS = [
 
 LATE_NIGHT_HOUR_START = 21  # 9pm
 
+# Flat set of all claim keywords for pre-filtering before LLM call
+_ALL_CLAIM_KEYWORDS = {kw for _, kws, _, _ in RESTRAINT_CLAIMS for kw in kws}
+
+FIRST_PERSON = ["i am", "i'm", "i've", "i don't", "i never", "i try", "i always",
+                "i tend", "i'm not", "im not", "i consider myself", "i'm pretty",
+                "i'm quite", "i'm very", "not really", "i wouldn't say"]
+
 
 def _is_late_night(txn: Transaction) -> bool:
     return txn.timestamp.hour >= LATE_NIGHT_HOUR_START
@@ -41,27 +50,118 @@ def _matches_category(txn: Transaction, category: str, description_keywords: lis
     return False
 
 
+def _find_self_claim_sentence(msg_content: str, keywords: list[str]) -> str | None:
+    """Return verbatim sentence containing a first-person self-claim, or None."""
+    sentences = re.split(r'(?<=[.!?])\s+|\n', msg_content)
+    for sentence in sentences:
+        s_lower = sentence.lower()
+        for kw in keywords:
+            idx = s_lower.find(kw)
+            if idx == -1:
+                continue
+            window = s_lower[max(0, idx - 60):idx + len(kw) + 30]
+            if any(fp in window for fp in FIRST_PERSON):
+                return sentence.strip()
+    return None
+
+
+def _extract_claims_llm(human_messages: list[Message], api_key: str) -> list[dict]:
+    """Use Claude Haiku to extract self-referential spending/identity claims with verbatim quotes."""
+    import anthropic
+
+    # Pre-filter: only pass messages containing a candidate keyword — reduces token cost
+    candidates = [
+        m for m in human_messages
+        if any(kw in m.content.lower() for kw in _ALL_CLAIM_KEYWORDS)
+    ]
+
+    if not candidates:
+        return []
+
+    sample = candidates[:200]
+    numbered = "\n".join(f"[{i + 1}] {m.content}" for i, m in enumerate(sample))
+
+    prompt = f"""You are a forensic analyst reviewing conversation messages to find self-describing financial identity claims.
+
+Find messages where the speaker explicitly describes their own spending behavior or financial identity.
+
+ONLY include first-person present-tense identity claims with clear self-framing:
+- "I'm not impulsive with purchases"
+- "I'm pretty frugal"
+- "I don't really buy much"
+- "I'm a minimalist"
+
+DO NOT include:
+- Technical or metaphorical uses (e.g. "the system needs to be frugal with memory")
+- Statements about other people
+- Aspirational statements ("I want to be more frugal")
+- Vague mentions without clear first-person identity framing
+
+For each qualifying claim, identify:
+- claim_type: one of "impulse", "frugal", or "minimalist"
+- verbatim: the exact quote from the message (complete sentence)
+
+Messages:
+{numbered}
+
+Respond with JSON only — no explanation, no markdown fences:
+{{"claims": [{{"claim_type": "impulse|frugal|minimalist", "verbatim": "exact quote"}}]}}
+
+If no qualifying claims found: {{"claims": []}}"""
+
+    try:
+        client = anthropic.Anthropic(api_key=api_key)
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = response.content[0].text.strip()
+        result = json.loads(raw)
+        return result.get("claims", [])
+    except Exception:
+        return []
+
+
 def detect_contradiction(
     messages: list[Message],
     transactions: list[Transaction],
+    api_key: str | None = None,
 ) -> list[Signal]:
     human_messages = [m for m in messages if m.sender == "human"]
-    corpus = " ".join(m.content.lower() for m in human_messages)
     signals = []
 
-    for claim_name, claim_keywords, spend_category, desc_keywords in RESTRAINT_CLAIMS:
-        claim_found = any(kw in corpus for kw in claim_keywords)
-        if not claim_found:
+    # --- Claim detection: LLM path if api_key provided, keyword fallback otherwise ---
+    # Maps claim_name -> verbatim quote string
+    claims_found: dict[str, str] = {}
+
+    if api_key:
+        for c in _extract_claims_llm(human_messages, api_key):
+            ctype = c.get("claim_type", "")
+            verbatim = c.get("verbatim", "").strip()
+            if ctype and verbatim and ctype not in claims_found:
+                claims_found[ctype] = verbatim
+    else:
+        # Keyword fallback: requires first-person window, returns verbatim sentence
+        for claim_name, claim_keywords, _, _ in RESTRAINT_CLAIMS:
+            for m in human_messages:
+                sentence = _find_self_claim_sentence(m.content, claim_keywords)
+                if sentence:
+                    claims_found[claim_name] = sentence
+                    break
+
+    # --- Contradiction check against transaction data ---
+    for claim_name, _claim_keywords, spend_category, desc_keywords in RESTRAINT_CLAIMS:
+        verbatim = claims_found.get(claim_name)
+        if verbatim is None:
             continue
 
-        # Find transactions that match this category (by field or description fallback)
         category_txns = [
             t for t in transactions
             if _matches_category(t, spend_category, desc_keywords) and t.amount < 0
         ]
         late_txns = [t for t in category_txns if _is_late_night(t)]
 
-        # Contradiction: claim restraint but frequent late-night category spending
         if len(late_txns) >= 5:
             total_spend = abs(sum(t.amount for t in late_txns))
             signals.append(Signal(
@@ -74,12 +174,13 @@ def detect_contradiction(
                     f'recorded (total: ${total_spend:.2f}).'
                 ),
                 evidence=(
-                    f'Claim keywords found: {", ".join(claim_keywords)}. '
+                    f'Verbatim claim: "{verbatim}". '
                     f'Counter-evidence: {len(late_txns)} transactions after 9pm '
                     f'in category "{spend_category}".'
                 ),
                 metadata={
                     "claim": claim_name,
+                    "verbatim": verbatim,
                     "late_night_count": len(late_txns),
                     "total_spend": total_spend,
                     "category": spend_category,
@@ -97,11 +198,12 @@ def detect_contradiction(
                     f'(total: ${total_spend:.2f}).'
                 ),
                 evidence=(
-                    f'Claim keywords: {", ".join(claim_keywords)}. '
+                    f'Verbatim claim: "{verbatim}". '
                     f'{len(category_txns)} transactions in "{spend_category}" category.'
                 ),
                 metadata={
                     "claim": claim_name,
+                    "verbatim": verbatim,
                     "transaction_count": len(category_txns),
                     "total_spend": total_spend,
                     "category": spend_category,
