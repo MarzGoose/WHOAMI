@@ -1,6 +1,6 @@
 # WHOAMI
 
-Your bank, Google, and Meta have been building a profile of you from your digital exhaust for years. WHOAMI points that same data back at you.
+Empires have been built with your data. Let it now build yours.
 
 It reads your Claude conversations, iMessage history, and bank transactions locally — nothing leaves your machine except the final synthesis call to the Claude API — and produces a **context pack**: a structured, forensically-grounded identity profile designed to be handed to an AI as context.
 
