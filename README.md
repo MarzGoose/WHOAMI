@@ -2,7 +2,7 @@
 
 Empires have been built with your data. Let it now build yours.
 
-It reads your Claude conversations, iMessage history, and bank transactions locally — nothing leaves your machine except the final synthesis call to the Claude API — and produces a **context pack**: a structured, forensically-grounded identity profile designed to be handed to an AI as context.
+It reads your AI conversations, iMessage/SMS history, social media exports, bank transaction exports and more locally — nothing leaves your machine except the final synthesis call to your AI API or local model — and produces a **context pack**: a structured, forensically-grounded identity profile designed to be handed to an AI as context for a WHOAMI interview driven by evidence and not a narrator.
 
 ---
 
